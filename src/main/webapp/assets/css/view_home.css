@@ -1,0 +1,27 @@
+.card__post {
+  border: 0.01rem solid #f7f7f7;
+  padding: 20px 0px;
+}
+
+.card-body {
+  padding: 0 15px;
+}
+
+.card {
+  margin: 15px 0;
+}
+
+.title__post {
+  color: #2d2dff;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 25px;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.title__post:hover {
+  text-decoration: none;
+}
