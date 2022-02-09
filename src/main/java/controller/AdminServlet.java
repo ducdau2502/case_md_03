@@ -5,6 +5,7 @@ import dao.ConnectionDBOf_Category;
 import dao.ConnectionDBOf_Post;
 import model.Account;
 import model.Category;
+import model._ListOfPost;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -36,6 +37,12 @@ public class AdminServlet extends HttpServlet {
         }
         try {
             switch (action) {
+                case "displayAllPost":
+                    displayAllPost(request, response);
+                    break;
+                case "deletePost":
+                    deletePost(request, response);
+                    break;
                 case "block":
                     blockAccount(request, response);
                     break;
@@ -51,6 +58,15 @@ public class AdminServlet extends HttpServlet {
                 case "displayCategory":
                     displayAllCategory(request, response);
                     break;
+                case "editGet_Category":
+                    editGet_Category(request, response);
+                    break;
+                case "editPost_Category":
+                    editPost_Category(request, response);
+                    break;
+                case "deleteCategory":
+                    deleteCategory(request, response);
+                    break;
                 default:
                     displayAllUser(request, response);
             }
@@ -59,10 +75,52 @@ public class AdminServlet extends HttpServlet {
         }
     }
 
+    private void deletePost(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int idDelete = Integer.parseInt(request.getParameter("id"));
+        connectionDBOf_post.deletePost(idDelete);
+        displayAllPost(request, response);
+    }
+
+    private void displayAllPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<_ListOfPost> listOfPosts = connectionDBOf_post.selectListOfPost();
+        request.setAttribute("listOfPosts", listOfPosts);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/post/view_post.jsp");
+        requestDispatcher.forward(request, response);
+    }
+
+    private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int idDelete = Integer.parseInt(request.getParameter("id"));
+        connectionDBOf_category.deleteCategory(idDelete);
+        displayAllCategory(request, response);
+    }
+
+    private void editPost_Category(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int id_category = Integer.parseInt(request.getParameter("id"));
+        String name_category = request.getParameter("name_category");
+        String description = request.getParameter("description");
+
+        Category category = new Category(id_category, name_category, description);
+        connectionDBOf_category.updateCategory(category);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/edit_category.jsp");
+        requestDispatcher.forward(request, response);
+    }
+
+    private void editGet_Category(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int id_category = Integer.parseInt(request.getParameter("id"));
+        Category categoryEdit = connectionDBOf_category.selectCategory(id_category);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/edit_category.jsp");
+        request.setAttribute("category", categoryEdit);
+        requestDispatcher.forward(request, response);
+    }
+
     private void displayAllCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/view_category.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/view_category.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -71,12 +129,14 @@ public class AdminServlet extends HttpServlet {
         String description = request.getParameter("description");
         Category category = new Category(name_category, description);
         connectionDBOf_category.insertCategory(category);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/create_category.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/create_category.jsp");
         requestDispatcher.forward(request, response);
     }
 
     private void createGet_Category(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/create_category.jsp");
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/create_category.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -95,6 +155,8 @@ public class AdminServlet extends HttpServlet {
     private void displayAllUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Account> accounts = connectionDBOf_account.selectAllAccount();
         request.setAttribute("accounts", accounts);
+        List<Category> categoryList = connectionDBOf_category.selectAllCategory();
+        request.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/home_admin.jsp");
         requestDispatcher.forward(request, response);
     }
