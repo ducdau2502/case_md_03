@@ -13,6 +13,7 @@ import java.util.List;
 public class ConnectionDBOf_Account implements IConnectionDB_Account {
     private static final String INSERT_ACCOUNT_SQL = "insert into account (username, password, phone_number, email, address) value (?, ?, ?, ?, ?);";
     private static final String SELECT_ALL_ACCOUNT = "select * from account";
+    private static final String SELECT_ACCOUNT_BY_ID = "select * from account where id_account = ?;";
     private static final String BLOCK_ACCOUNT_SQL = "update account set status = 0 where id_account = ?;";
     private static final String UNBLOCK_ACCOUNT_SQL = "update account set status = 1 where id_account = ?;";
 
@@ -83,5 +84,41 @@ public class ConnectionDBOf_Account implements IConnectionDB_Account {
             rowUnblocked = statement.executeUpdate() > 0;
         }
         return rowUnblocked;
+    }
+
+    @Override
+    public Account checkLogin(String username, String password) {
+        Account account = null;
+            List<Account> accounts = selectAllAccount();
+            for (Account acc: accounts) {
+                if (acc.getUsername().equals(username) && acc.getPassword().equals(password)) {
+                    account = acc;
+                }
+            }
+        return account;
+    }
+
+    public Account getAccountById(int id) {
+        Account account = null;
+        try (Connection connection = myConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACCOUNT_BY_ID)) {
+            System.out.println(preparedStatement);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id_account = rs.getInt("id_account");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String phoneNumber = rs.getString("phone_number");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                int rollno = rs.getInt("roll_no");
+                int status = rs.getInt("status");
+                account = new Account(id_account, username, password, phoneNumber, email, address, rollno, status);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
     }
 }

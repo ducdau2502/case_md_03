@@ -67,6 +67,7 @@ public class AdminServlet extends HttpServlet {
                 case "deleteCategory":
                     deleteCategory(request, response);
                     break;
+//                case "displayAllUser":
                 default:
                     displayAllUser(request, response);
             }
@@ -86,6 +87,9 @@ public class AdminServlet extends HttpServlet {
         request.setAttribute("listOfPosts", listOfPosts);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/post/view_post.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -120,6 +124,9 @@ public class AdminServlet extends HttpServlet {
     private void displayAllCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        int id = Integer.parseInt(request.getParameter("account_id"));
+        Account account = connectionDBOf_account.getAccountById(id);
+        request.setAttribute("account", account);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/view_category.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -129,6 +136,9 @@ public class AdminServlet extends HttpServlet {
         String description = request.getParameter("description");
         Category category = new Category(name_category, description);
         connectionDBOf_category.insertCategory(category);
+        int id = Integer.parseInt(request.getParameter("account_id"));
+        Account account = connectionDBOf_account.getAccountById(id);
+        request.setAttribute("account", account);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/create_category.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -136,6 +146,9 @@ public class AdminServlet extends HttpServlet {
     private void createGet_Category(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        int id = Integer.parseInt(request.getParameter("account_id"));
+        Account account = connectionDBOf_account.getAccountById(id);
+        request.setAttribute("account", account);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/category/create_category.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -157,7 +170,18 @@ public class AdminServlet extends HttpServlet {
         request.setAttribute("accounts", accounts);
         List<Category> categoryList = connectionDBOf_category.selectAllCategory();
         request.setAttribute("categoryList", categoryList);
+        if (checkAccount(request) != null) {
+            request.setAttribute("account", checkAccount(request));
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/admin/home_admin.jsp");
         requestDispatcher.forward(request, response);
+    }
+
+    private Account checkAccount(HttpServletRequest request) {
+        if ((request.getParameter("account_id")) != null) {
+            int id = Integer.parseInt(request.getParameter("account_id"));
+            return connectionDBOf_account.getAccountById(id);
+        }
+        return null;
     }
 }

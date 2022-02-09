@@ -45,10 +45,10 @@
                 <ul class="navbar-nav ml-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#top">Register</a>
+                        <a class="nav-link" href="/login?action=registerGet">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#top">Login</a>
+                        <a class="nav-link" href="/login?action=loginGet">Login</a>
                     </li>
 
                     <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">

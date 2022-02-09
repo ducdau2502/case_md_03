@@ -43,20 +43,28 @@
             <div class="collapse navbar-collapse" id="navbarAdmin">
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#top">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#top">Login</a>
-                    </li>
+                    <c:if test="${account == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login?action=registerGet">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login?action=loginGet">Login</a>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${requestScope['account'] != null}">
+                        <li class="nav-item">
+                            <span class="nav-link"><c:out value="${requestScope['account'].getUsername()}"> </c:out></span>
+                        </li>
+                    </c:if>
 
                     <li class="nav-item dropdown d-sm-block d-md-none d-lg-none">
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Posts </a>
                         <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="#top">All posts</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost&account_id=${requestScope['account'].getId_account()}">All posts</a>
                             <c:forEach items="${categoryList}" var="category">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost">
+                                <a class="dropdown-item" href="#">
                                         ${category.getName_category()}
                                 </a>
                             </c:forEach>
@@ -67,7 +75,6 @@
                         <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Profile </a>
                         <div class="dropdown-menu" aria-labelledby="profilemenu">
-                            <a class="dropdown-item" href="#top">My Posts</a>
                             <a class="dropdown-item" href="#top">Logout</a>
                         </div>
                     </li>
@@ -93,7 +100,7 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="/admin" class="bg-dark list-group-item list-group-item-action">
+                    <a href="/admin?account_id=${requestScope['account'].getId_account()}" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fas fa-tasks fa-fw mr-3"></span>
                             <span class="menu-collapsed">Home</span>
@@ -109,7 +116,7 @@
                         </div>
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="${pageContext.request.contextPath}/admin?action=displayAllPost" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="${pageContext.request.contextPath}/admin?action=displayAllPost&account_id=${requestScope['account'].getId_account()}" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">All Post</span>
                         </a>
                         <c:forEach items="${categoryList}" var="category">
@@ -128,10 +135,10 @@
                         </div>
                     </a>
                     <div id="submenu2" class="collapse sidebar-submenu">
-                        <a href="${pageContext.request.contextPath}/admin?action=displayCategory" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="${pageContext.request.contextPath}/admin?action=displayCategory&account_id=${requestScope['account'].getId_account()}" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">All Category</span>
                         </a>
-                        <a href="${pageContext.request.contextPath}/admin?action=createGet_Category" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="${pageContext.request.contextPath}/admin?action=createGet_Category&account_id=${requestScope['account'].getId_account()}" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">Create New</span>
                         </a>
                     </div>
