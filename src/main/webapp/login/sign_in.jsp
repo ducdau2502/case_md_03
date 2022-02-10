@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="/assets/css/header_footer.css">
     <link rel="stylesheet" href="/assets/css/register_login.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
 
     <script src="/assets/js/main.js"></script>
     <title>Get High 4rum</title>
