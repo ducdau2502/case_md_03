@@ -22,6 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="/assets/css/header_footer.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
 
     <script src="/assets/js/main.js"></script>
     <title>Get High 4rum</title>
@@ -36,7 +37,7 @@
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/user">
                 <img class="logo__image" src="/assets/anh/anh_avatar.png" alt="Avatar Image">
             </a>
 
@@ -62,22 +63,24 @@
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"> Posts </a>
                         <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost&account=${requestScope['account'].getUsername()}">All posts</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayAllPost<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">All posts</a>
                             <c:forEach items="${categoryList}" var="category">
-                                <a class="dropdown-item" href="#">
-                                    ${category.getName_category()}
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=displayPostById_category&id=${category.getId_category()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">
+                                        ${category.getName_category()}
                                 </a>
                             </c:forEach>
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown d-sm-block d-md-none d-lg-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false"> Profile </a>
-                        <div class="dropdown-menu" aria-labelledby="profilemenu">
-                            <a class="dropdown-item" href="#top">Logout</a>
-                        </div>
-                    </li>
+                    <c:if test="${account != null}">
+                        <li class="nav-item dropdown d-sm-block d-md-none d-lg-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="profilemenu" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false"> Profile </a>
+                            <div class="dropdown-menu" aria-labelledby="profilemenu">
+                                <a class="dropdown-item" href="/login?action=logout">Logout</a>
+                            </div>
+                        </li>
+                    </c:if>
 
                     <li class="nav-item dropdown d-sm-block d-md-none d-lg-none">
                         <form class="nav-link d-flex">
@@ -100,7 +103,7 @@
                         <small>MAIN MENU</small>
                     </li>
 
-                    <a href="${pageContext.request.contextPath}/admin?account_id=${requestScope['account'].getId_account()}" class="bg-dark list-group-item list-group-item-action">
+                    <a href="${pageContext.request.contextPath}/admin<c:if test="${account != null}">?account_id=${requestScope['account'].getId_account()}</c:if>" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fas fa-tasks fa-fw mr-3"></span>
                             <span class="menu-collapsed">Home</span>
@@ -116,11 +119,11 @@
                         </div>
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="${pageContext.request.contextPath}/admin?action=displayAllPost&account_id=${requestScope['account'].getId_account()}" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="${pageContext.request.contextPath}/admin?action=displayAllPost<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">All Post</span>
                         </a>
                         <c:forEach items="${categoryList}" var="category">
-                            <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                            <a href="${pageContext.request.contextPath}/admin?action=displayPostById_category&id=${category.getId_category()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed"><c:out value="${category.getName_category()}"></c:out></span>
                             </a>
                         </c:forEach>
@@ -135,27 +138,29 @@
                         </div>
                     </a>
                     <div id="submenu2" class="collapse sidebar-submenu">
-                        <a href="${pageContext.request.contextPath}/admin?action=displayCategory&account_id=${requestScope['account'].getId_account()}" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="${pageContext.request.contextPath}/admin?action=displayCategory<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">All Category</span>
                         </a>
-                        <a href="${pageContext.request.contextPath}/admin?action=createGet_Category&account_id=${requestScope['account'].getId_account()}" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="${pageContext.request.contextPath}/admin?action=createGet_Category<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">Create New</span>
                         </a>
                     </div>
 
-                    <a href="#submenu3" data-toggle="collapse" aria-expanded="false"
-                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fas fa-user fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Profile</span>
-                            <span class="fas fa-angle-down ml-auto"></span>
-                        </div>
-                    </a>
-                    <div id='submenu3' class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Logout</span>
+                    <c:if test="${account != null}">
+                        <a href="#submenu3" data-toggle="collapse" aria-expanded="false"
+                           class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-start align-items-center">
+                                <span class="fas fa-user fa-fw mr-3"></span>
+                                <span class="menu-collapsed">Profile</span>
+                                <span class="fas fa-angle-down ml-auto"></span>
+                            </div>
                         </a>
-                    </div>
+                        <div id='submenu3' class="collapse sidebar-submenu">
+                            <a href="/login?action=logout" class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed">Logout</span>
+                            </a>
+                        </div>
+                    </c:if>
 
                     <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
                         <span class="search__icon fas fa-search fa-fw mr-3"></span>
@@ -204,12 +209,12 @@
 
                                     <td>
                                         <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/admin?action=block&id=${account.getId_account()}">Block</a>
+                                            <a href="${pageContext.request.contextPath}/admin?action=block&id=${account.getId_account()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">Block</a>
                                         </button>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-outline-danger">
-                                            <a href="${pageContext.request.contextPath}/admin?action=unblock&id=${account.getId_account()}">Unblock</a>
+                                            <a href="${pageContext.request.contextPath}/admin?action=unblock&id=${account.getId_account()}<c:if test="${account != null}">&account_id=${requestScope['account'].getId_account()}</c:if>">Unblock</a>
                                         </button>
                                     </td>
                                 </tr>
@@ -230,5 +235,32 @@
 </div>
 
 </body>
+<c:if test="${messLogin1 != null}">
+    <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">${messLogin1}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                        ${messLogin2}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#dialog1').modal('show');
+    </script>
+</c:if>
 
 </html>

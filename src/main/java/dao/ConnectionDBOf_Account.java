@@ -2,6 +2,7 @@ package dao;
 
 import connection.MyConnection;
 import model.Account;
+import regex.Validate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class ConnectionDBOf_Account implements IConnectionDB_Account {
     }
 
     private final MyConnection myConnection = new MyConnection();
-
+    private final Validate validate = new Validate();
     @Override
     public void insertAccount(Account account) throws SQLException {
         try (Connection connection = myConnection.getConnection();
@@ -89,13 +90,18 @@ public class ConnectionDBOf_Account implements IConnectionDB_Account {
     @Override
     public Account checkLogin(String username, String password) {
         Account account = null;
-            List<Account> accounts = selectAllAccount();
-            for (Account acc: accounts) {
-                if (acc.getUsername().equals(username) && acc.getPassword().equals(password)) {
-                    account = acc;
-                }
+        List<Account> accounts = selectAllAccount();
+        for (Account acc : accounts) {
+            if (acc.getUsername().equals(username) && acc.getPassword().equals(password) ||
+                    acc.getEmail().equals(username) && acc.getPassword().equals(password)) {
+                account = acc;
             }
+        }
         return account;
+    }
+
+    public Account logout() {
+        return null;
     }
 
     public Account getAccountById(int id) {
@@ -120,5 +126,23 @@ public class ConnectionDBOf_Account implements IConnectionDB_Account {
             e.printStackTrace();
         }
         return account;
+    }
+
+    public boolean checkRegister(String username, String password, String phoneNumber) {
+       if (validate.validateAccount(username) && validate.validatePassword(password) && validate.validatePhone(phoneNumber)) {
+           return true;
+       } else {
+           return false;
+       }
+    }
+
+    public boolean checkExitingAccount(String username, String email) {
+        List<Account> accounts = selectAllAccount();
+        for (Account account: accounts) {
+            if (account.getEmail().equals(email) || account.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

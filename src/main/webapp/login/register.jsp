@@ -37,7 +37,7 @@
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/user">
                 <img class="logo__image" src="/assets/anh/anh_avatar.png" alt="Avatar Image">
             </a>
 
@@ -45,25 +45,7 @@
                 <ul class="navbar-nav ml-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#top">Login</a>
-                    </li>
-
-                    <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false"> Posts </a>
-                        <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                            <a class="dropdown-item" href="#top">News</a>
-                            <a class="dropdown-item" href="#top">Culinary</a>
-                            <a class="dropdown-item" href="#top">Tourism</a>
-                            <a class="dropdown-item" href="#top">F17 Voz</a>
-                        </div>
-                    </li>
-
-                    <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
-                        <form class="nav-link d-flex">
-                            <input class="form-control mr-2" type="text" placeholder="Search">
-                            <button class="btn btn-light ml-2" type="button" href="">Search</button>
-                        </form>
+                        <a class="nav-link" href="/login?action=loginGet">Login</a>
                     </li>
 
                 </ul>
@@ -74,63 +56,20 @@
 <div id="body" class="m-4">
     <div class="container">
         <div class="row" id="body-row">
-            <div id="sidebar-container" class="col-lg-3 sidebar-expanded d-none d-md-none d-lg-block">
-                <ul class="list-group">
-                    <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                        <small>MAIN MENU</small>
-                    </li>
-
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
-                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justyfy-content-start align-items-center">
-                            <span class="far fa-newspaper mr-3"></span>
-                            <span class="menu-collapsed">Post</span>
-                            <span class="fas fa-angle-down ml-auto"></span>
-                        </div>
-                    </a>
-                    <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">News</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Culinary</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tourism</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">F17 Voz</span>
-                        </a>
-                    </div>
-
-                    <div class="bg-dark list-group-item d-flex w-100 justify-content-start align-items-center">
-                        <span class="search__icon fas fa-search fa-fw mr-3"></span>
-
-                        <form class="d-flex">
-                            <button class="btn btn-light mr-lg-3 mr-md-2" type="button" href="">Search</button>
-                            <input class="form-control" type="text" placeholder="Search">
-                        </form>
-                    </div>
-                </ul>
-            </div>
-
-            <div class="col-lg-9 col-md-12">
+            <div class="col-lg-12 col-md-12">
                 <div class="card card-login mx-auto text-center bg-dark">
                     <div class="card-header mx-auto bg-dark">
                         <span> <img src="/assets/anh/anh_avatar.png" class="w-25" alt="Logo"> </span><br/>
-                        <span class="logo_title mt-5"> Register Dashboard </span>
-
-                        <!--            <h1>--><?php //echo $message?><!--</h1>-->
+                        <div class="logo_title mt-1 font-weight-light"> Register Dashboard </div>
 
                     </div>
                     <div class="card-body">
-                        <form action="" method="post">
-
+                        <form action="/login?action=registerPost" method="post">
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" name="email" class="form-control" placeholder="Username">
+                                <input type="text" name="username" class="form-control" placeholder="Username">
                             </div>
 
                             <div class="input-group form-group">
@@ -158,7 +97,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="far fa-envelope-open"></i></span>
                                 </div>
-                                <input type="text" name="email" class="form-control" placeholder="Email">
+                                <input type="email" name="email" class="form-control" placeholder="Email">
                             </div>
 
                             <div class="input-group form-group">
@@ -169,9 +108,14 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" name="btn" value="Register" class="btn btn-outline-danger float-right login_btn">
+                                <input type="submit" name="btn" value="Register" class="btn btn-success float-right">
                             </div>
 
+                        </form>
+                        <form action="/view/home_view.jsp" method="post">
+                            <div class="form-group">
+                            <input type="submit" name="btn" value="Back to home" class="mr-4 btn btn-primary float-right">
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -188,5 +132,31 @@
 </div>
 
 </body>
+<c:if test="${messLogin1 != null}">
+    <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h5 class="modal-title">${messLogin1}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                        ${messLogin2}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#dialog1').modal('show');
+    </script>
+</c:if>
 </html>

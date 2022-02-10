@@ -23,9 +23,11 @@
 
     <link rel="stylesheet" href="/assets/css/header_footer.css">
     <link rel="stylesheet" href="/assets/css/view_home.css">
-    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/view_detail.css">
 
     <script src="/assets/js/main.js"></script>
+    <script src="//cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+
     <title>Get High 4rum</title>
 </head>
 <body>
@@ -45,20 +47,12 @@
             <div class="collapse navbar-collapse" id="navbarAdmin">
                 <ul class="navbar-nav ml-auto">
 
-                    <c:if test="${account == null}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login?action=registerGet">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login?action=loginGet">Login</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${account != null}">
-                        <li class="nav-item">
-                            <span class="nav-link"><c:out value="${account.getUsername()}"></c:out></span>
-                        </li>
-                    </c:if>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#top">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#top">Login</a>
+                    </li>
 
                     <li class="nav-item dropdown d-sm-block d-md-block d-lg-none">
                         <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown"
@@ -110,7 +104,7 @@
                         </div>
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
-                        <a href="#abcdef" class="smooth-scroll list-group-item list-group-item-action bg-dark text-white">
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">News</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
@@ -137,9 +131,6 @@
                             <span class="menu-collapsed">My Posts</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">New Post</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="menu-collapsed">Logout</span>
                         </a>
                     </div>
@@ -157,29 +148,62 @@
 
             <div class="col-lg-9 col-md-12">
                 <h2 class="display-4">Get High 4rum</h2>
-                <%--                <c:forEach items="" var="">--%>
                 <div class="card" >
-                    <h5 class="card-header font-weight-light smooth-scroll" id="abcdef"> Tên biến category </h5>
+                    <h5 class="card-header font-weight-light">New Post</h5>
                     <div class="card-body">
-                        <%--                                <c:forEach items="" var="">--%>
-                            <div class="card__post row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <h5>
-                                        <a class="title__post" href="">Lorem Ipsum is simply dummy text of the printing and typesetting industry  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</a>
-                                    </h5>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-12">Tác giả</div>
-                                <div class="col-lg-2 col-md-2 col-sm-12">Ngày viết</div>
-                                <div class="col-lg-2 col-md-2 col-sm-12">
-                                    <span class="far fa-thumbs-up"></span>
-                                    <span>666</span>
-                                </div>
-                            </div>
-                        <%--                                </c:forEach>--%>
+                        <form action="" method="POST">
 
+                            <div class="form-group has-error">
+                                <label for="category">Category<span class="require">*</span></label>
+                                <select name="category" id="category" class="form-control" required>
+                                    <option value="News">News</option>
+                                    <option value="News">Culinary</option>
+                                    <option value="News">Tourism</option>
+                                    <option value="News">F17 Voz</option>
+                                </select>
+
+<%--                                <c:if test="${city != null}">--%>
+<%--                                    <script>--%>
+<%--                                        function myFunction() {--%>
+<%--                                            document.getElementById("category").value = "${id_country}";--%>
+<%--                                        }--%>
+<%--                                        <c:if test="${city != null}">myFunction()</c:if>--%>
+<%--                                    </script>--%>
+<%--                                </c:if>--%>
+                            </div>
+
+                            <div class="form-group" style="display: none">
+                                <label for="id_post"></label>
+                                <input type="text" id="id_post" class="form-control" name="id_post" value=""/>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="title">Title <span class="require">*</span></label>
+                                <input type="text" id="title" class="form-control" name="title" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">Content <span class="require">*</span></label>
+                                <textarea name="content" id="content">code core tag post.getcontent()</textarea>
+                                <script>CKEDITOR.replace('content');</script>
+                            </div>
+
+                            <div class="form-group">
+                                <p><span class="require">*</span> - required fields</p>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    Create
+                                </button>
+                                <button class="btn btn-default">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <%--                </c:forEach>--%>
 
 
             </div>
@@ -193,31 +217,5 @@
 </div>
 
 </body>
-<c:if test="${messLogin1 != null}">
-    <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">${messLogin1}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                        ${messLogin2}
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <script>
-        $('#dialog1').modal('show');
-    </script>
-</c:if>
 </html>
